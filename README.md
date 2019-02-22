@@ -27,6 +27,34 @@ services:
       - '143:143'  
       - '993:993'  
       - '995:995'  
+    volumes:
+      - mailbox_files:/data/files
+      - mailbox_homes:/data/home
+      - logs:/data/logs
+      - common_data:/data/common
+
+volumes:
+  common_data:
+    driver: local
+  logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /srv/data/logs/spiderweb
+  mailbox_files:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /srv/data/mailboxes/files
+  mailbox_homes:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /srv/data/mailboxes/home
+
 ```
 Save on a file and then run:  
 `docker stack deploy -c /your-docker-compose-file-just-created.yml dovecot`
