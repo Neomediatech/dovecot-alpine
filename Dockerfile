@@ -17,5 +17,5 @@ RUN chmod +x /init.sh /usr/local/sbin/*
 
 EXPOSE 110 143 993 995
 
-HEALTHCHECK --interval=10s --timeout=3s --retries=5 CMD doveadm service status || exit 1
-ENTRYPOINT ["tini", "--", "/init.sh"]
+#HEALTHCHECK --interval=10s --timeout=3s --retries=5 CMD doveadm service status || exit 1
+ENTRYPOINT ["tini", "--", "/init.sh"] 
