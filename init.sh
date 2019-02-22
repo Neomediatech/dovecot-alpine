@@ -6,22 +6,28 @@ set -e
 
 LOGFILE=/data/logs/dovecot.log
 if [ ! -f $LOGFILE ]; then
-	touch $LOGFILE
+  touch $LOGFILE
 fi
 chmod 666 $LOGFILE
 chown 5000:5000 /data/home
 chmod 775 /data/home
 
 if [ ! -f /etc/dovecot/fullchain.pem ]; then
-   cp /etc/ssl/dovecot/server.pem /etc/dovecot/fullchain.pem
-   cp /etc/ssl/dovecot/server.key /etc/dovecot/privkey.pem 
+  cp /etc/ssl/dovecot/server.pem /etc/dovecot/fullchain.pem
+  cp /etc/ssl/dovecot/server.key /etc/dovecot/privkey.pem 
+fi
+
+if [ -f /mail_domain ]; then
+  maildomain="$(grep "^[[:alnum:]]" /mail_domain|head -n1|tr -d " ")"
+  if [ -n "$maildomain" ]; then
+    sed -i "s/^ssl_cert.*$/ssl_cert = <\/data\/certs\/live\/$maildomain\/fullchain\.pem/" /etc/dovecot/dovecot.conf
+    sed -i "s/^ssl_key.*$/ssl_key = <\/etc\/letsencrypt\/live\/$maildomain\/privkey.pem/" /etc/dovecot/dovecot.conf
+  fi
 fi
 
 if [ ! -f /data/common/dh-dovecot.pem ]; then
-	openssl dhparam 2048 > /data/common/dh-dovecot.pem
+  openssl dhparam 2048 > /data/common/dh-dovecot.pem
 fi
 
 dovecot
 tail -f /data/logs/dovecot.log
-
-
