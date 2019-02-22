@@ -17,11 +17,11 @@ if [ ! -f /etc/dovecot/fullchain.pem ]; then
   cp /etc/ssl/dovecot/server.key /etc/dovecot/privkey.pem 
 fi
 
-if [ -f /mail_domain ]; then
-  maildomain="$(grep "^[[:alnum:]]" /mail_domain|head -n1|tr -d " ")"
-  if [ -n "$maildomain" ]; then
-    sed -i "s/^ssl_cert.*$/ssl_cert = <\/data\/certs\/live\/$maildomain\/fullchain\.pem/" /etc/dovecot/dovecot.conf
-    sed -i "s/^ssl_key.*$/ssl_key = <\/etc\/letsencrypt\/live\/$maildomain\/privkey.pem/" /etc/dovecot/dovecot.conf
+if [ -f /servername_cert ]; then
+  servername_cert="$(grep "^[[:alnum:]]" /servername_cert|head -n1|tr -d " ")"
+  if [ -n "$servername_cert" ]; then
+    sed -i "s/^ssl_cert.*$/ssl_cert = <\/data\/certs\/live\/$servername_cert\/fullchain\.pem/" /etc/dovecot/dovecot.conf
+    sed -i "s/^ssl_key.*$/ssl_key = <\/etc\/letsencrypt\/live\/$servername_cert\/privkey.pem/" /etc/dovecot/dovecot.conf
   fi
 fi
 
