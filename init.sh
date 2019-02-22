@@ -21,7 +21,7 @@ if [ -f /servername_cert ]; then
   servername_cert="$(grep "^[[:alnum:]]" /servername_cert|head -n1|tr -d " ")"
   if [ -n "$servername_cert" ]; then
     sed -i "s/^ssl_cert.*$/ssl_cert = <\/data\/certs\/live\/$servername_cert\/fullchain\.pem/" /etc/dovecot/dovecot.conf
-    sed -i "s/^ssl_key.*$/ssl_key = <\/etc\/letsencrypt\/live\/$servername_cert\/privkey.pem/" /etc/dovecot/dovecot.conf
+    sed -i "s/^ssl_key.*$/ssl_key = <\/data\/certs\/live\/$servername_cert\/privkey.pem/" /etc/dovecot/dovecot.conf
   fi
 fi
 
