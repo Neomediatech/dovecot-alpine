@@ -1,0 +1,37 @@
+#!/bin/bash
+
+pwfile="/data/files/pwd"
+if [ -z "$1" ]; then
+	echo " "
+	echo "Inserisci il nome utente da cancellare "
+	echo " "
+	exit 1
+fi
+u=$(echo $1|tr -cd [A-Za-z0-9.-])
+row="$(grep -q $u $pwfile)"
+if [ $? -ne 0 ]; then
+	echo "l'utente $u non esiste"
+	exit 2
+fi
+read -p "Sei sicuro di voler cancellare l'utente $u ? (digita: 'Sono sicuro') " c
+if [ "$c" != "Sono sicuro" ]; then
+	echo " "
+	echo "OPERAZIONE ANNULLATA"
+	echo " "
+	exit 3
+fi
+echo " "
+
+sed -i "/^$u:/d" $pwfile
+
+echo " "
+echo " "
+
+if [ $? -ne 0 ]; then
+	echo "Errore nel cancellare l'utente"
+else
+	echo "Fatto"
+fi
+echo " "
+
+
