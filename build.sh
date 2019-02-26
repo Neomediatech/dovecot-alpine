@@ -1,1 +1,1 @@
-docker build . -t dovecot-alpine-neo-new
+docker build . -t dovecot-alpine
