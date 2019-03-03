@@ -30,3 +30,4 @@ if [ ! -f /data/common/dh-dovecot.pem ]; then
 fi
 
 exec tail -f /data/logs/dovecot.log &
+exec "$@"
