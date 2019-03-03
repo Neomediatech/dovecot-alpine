@@ -9,7 +9,7 @@ RUN apk add --no-cache tini dovecot bash \
     && mkdir -p /var/lib/dovecot /usr/local/sbin \ 
     && addgroup -g 5000 vmail \ 
     && adduser -D -u 5000 -G vmail vmail
-COPY dovecot.conf dovecot-ssl.cnf /etc/dovecot/ 
+COPY dovecot.conf dovecot-ssl.cnf /etc/dovecot/
 
 COPY init.sh /
 COPY passwd adduser userdel /usr/local/sbin/
@@ -17,5 +17,5 @@ RUN chmod +x /init.sh /usr/local/sbin/*
 
 EXPOSE 110 143 993 995
 
-#HEALTHCHECK --interval=10s --timeout=3s --retries=5 CMD doveadm service status || exit 1
-ENTRYPOINT ["tini", "--", "/init.sh"] 
+HEALTHCHECK --interval=10s --timeout=5s --start-period=10s --retries=5 CMD doveadm service status 1>/dev/null && echo 'At your service, sir' || exit 1
+ENTRYPOINT ["tini", "--", "/init.sh"]
