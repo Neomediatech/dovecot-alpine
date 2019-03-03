@@ -11,11 +11,13 @@ RUN apk add --no-cache tini dovecot bash \
     && adduser -D -u 5000 -G vmail vmail
 COPY dovecot.conf dovecot-ssl.cnf /etc/dovecot/
 
-COPY init.sh /
+COPY entrypoint.sh /
 COPY passwd adduser userdel /usr/local/sbin/
-RUN chmod +x /init.sh /usr/local/sbin/*
+RUN chmod +x /entrypoint.sh /usr/local/sbin/*
 
 EXPOSE 110 143 993 995
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=10s --retries=5 CMD doveadm service status 1>/dev/null && echo 'At your service, sir' || exit 1
-ENTRYPOINT ["tini", "--", "/init.sh"]
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["tini", "--", "dovecot","-F"]
