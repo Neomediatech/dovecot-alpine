@@ -29,5 +29,4 @@ if [ ! -f /data/common/dh-dovecot.pem ]; then
   openssl dhparam 2048 > /data/common/dh-dovecot.pem
 fi
 
-exec dovecot
-tail -f /data/logs/dovecot.log
+exec tail -f /data/logs/dovecot.log &
