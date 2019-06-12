@@ -1,3 +1,8 @@
+[![](https://images.microbadger.com/badges/version/neomediatech/dovecot-alpine.svg)](https://microbadger.com/images/neomediatech/dovecot-alpine "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/neomediatech/dovecot-alpine.svg)](https://microbadger.com/images/neomediatech/dovecot-alpine)
+![](https://img.shields.io/github/last-commit/Neomediatech/dovecot-alpine.svg?style=plastic)
+![](https://img.shields.io/github/repo-size/Neomediatech/dovecot-alpine.svg?style=plastic)
+
 # dovecot-alpine
 Dockerized version of Dovecot, based on Alpine Linux
 
@@ -41,7 +46,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /srv/data/logs/spiderweb
+      device: /srv/data/logs
   mailbox_files:
     driver: local
     driver_opts:
