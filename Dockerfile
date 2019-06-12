@@ -1,14 +1,24 @@
 FROM alpine:3.9
 
-LABEL maintainer="docker-dario@neomediatech.it"
+ENV VERSION=2.3.6-r0
+ENV BUILD_DATE=2019-05-09
 
-RUN apk update; apk upgrade ; apk add --no-cache tzdata; cp /usr/share/zoneinfo/Europe/Rome /etc/localtime
-RUN apk add --no-cache tini dovecot bash \
-    && rm -rf /usr/local/share/doc /usr/local/share/man \ 
-    && rm -rf /etc/dovecot/* \ 
-    && mkdir -p /var/lib/dovecot /usr/local/sbin \ 
-    && addgroup -g 5000 vmail \ 
-    && adduser -D -u 5000 -G vmail vmail
+ENV TZ=Europe/Rome
+
+LABEL maintainer="docker-dario@neomediatech.it" \ 
+      org.label-schema.version=$VERSION \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.vcs-type=Git \
+      org.label-schema.vcs-url=https://github.com/Neomediatech/dovecot-alpine \
+      org.label-schema.maintainer=Neomediatech
+
+RUN apk update && apk upgrade && apk add --no-cache tzdata && cp /usr/share/zoneinfo/$TZ /etc/localtime && \
+    apk add --no-cache tini dovecot bash && \
+    rm -rf /usr/local/share/doc /usr/local/share/man && \ 
+    rm -rf /etc/dovecot/* && \ 
+    mkdir -p /var/lib/dovecot /usr/local/sbin && \ 
+    addgroup -g 5000 vmail && \ 
+    adduser -D -u 5000 -G vmail vmail
 COPY dovecot.conf dovecot-ssl.cnf /etc/dovecot/
 
 COPY entrypoint.sh /
