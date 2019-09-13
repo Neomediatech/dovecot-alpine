@@ -13,7 +13,7 @@ if [ $? -ne 0 ]; then
 	echo "l'utente $u non esiste"
 	exit 2
 fi
-read -p "Sei sicuro di voler cancellare l'utente $u ? (digita: 'Sono sicuro') " c
+read -p "Sei sicuro di voler cancellare l'utente $u ? (digita: Sono sicuro) " c
 if [ "$c" != "Sono sicuro" ]; then
 	echo " "
 	echo "OPERAZIONE ANNULLATA"
